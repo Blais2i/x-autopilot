@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "X Autopilot",
+  "version": "1.0.0",
+  "description": "Automate replies, likes, follows on X",
+  "permissions": ["storage", "alarms", "tabs", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://twitter.com/*",
+    "https://*.supabase.co/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": [
+        "utils/helpers.js",
+        "utils/human-simulator.js",
+        "content/dom-reader.js",
+        "content/action-executor.js",
+        "content/observer.js",
+        "content/main.js"
+      ],
+      "css": ["content/injected.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}

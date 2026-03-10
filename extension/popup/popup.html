@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>X Autopilot</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { width: 300px; background: #0a0a0a; color: #e7e9ea; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; }
+    .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #222; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; }
+    .logo-icon { width: 26px; height: 26px; background: #1d9bf0; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .stats { display: flex; gap: 8px; padding: 10px 16px; border-bottom: 1px solid #222; }
+    .stat { flex: 1; background: #141414; border: 1px solid #222; border-radius: 8px; padding: 8px; text-align: center; }
+    .stat-value { font-size: 20px; font-weight: 700; color: #1d9bf0; display: block; }
+    .stat-label { color: #71767b; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .section { padding: 12px 16px; border-bottom: 1px solid #222; }
+    .section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #71767b; margin-bottom: 10px; }
+    .row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
+    .switch { position: relative; width: 36px; height: 20px; }
+    .switch input { display: none; }
+    .track { position: absolute; inset: 0; background: #333; border-radius: 20px; cursor: pointer; transition: background 0.2s; }
+    .track::after { content: ''; position: absolute; width: 16px; height: 16px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: transform 0.2s; }
+    .switch input:checked + .track { background: #1d9bf0; }
+    .switch input:checked + .track::after { transform: translateX(16px); }
+    .slider-row { margin: 6px 0; }
+    .slider-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .slider-val { color: #1d9bf0; font-weight: 600; }
+    input[type="range"] { width: 100%; accent-color: #1d9bf0; cursor: pointer; }
+    .btn-row { display: flex; gap: 8px; padding: 10px 16px; }
+    .btn { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #222; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-primary { background: #1d9bf0; border-color: #1d9bf0; color: #fff; }
+    .btn-secondary { background: #141414; color: #e7e9ea; }
+    .status-text { font-size: 11px; color: #71767b; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">✦</div>
+      X Autopilot
+    </div>
+    <span class="status-text" id="statusText">Loading...</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-value" id="actionsToday">0</span><span class="stat-label">Today</span></div>
+    <div class="stat"><span class="stat-value" id="queueLength">0</span><span class="stat-label">Queue</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Master Control</div>
+    <div class="row">
+      <span>Autopilot On/Off</span>
+      <label class="switch"><input type="checkbox" id="masterToggle"><span class="track"></span></label>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Automations</div>
+    <div class="row"><span>Auto-Reply (Feed)</span><label class="switch"><input type="checkbox" id="autoReply"><span class="track"></span></label></div>
+    <div class="row"><span>Auto-Reply to Mentions</span><label class="switch"><input type="checkbox" id="autoReplyMentions"><span class="track"></span></label></div>
+    <div class="row"><span>Auto-Like</span><label class="switch"><input type="checkbox" id="autoLike"><span class="track"></span></label></div>
+    <div class="row"><span>Auto-Follow</span><label class="switch"><input type="checkbox" id="autoFollow"><span class="track"></span></label></div>
+    <div class="row"><span>Post Scheduler</span><label class="switch"><input type="checkbox" id="postScheduling"><span class="track"></span></label></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Timing</div>
+    <div class="slider-row">
+      <div class="slider-header"><span>Min delay</span><span class="slider-val"><span id="minDelayVal">45</span>s</span></div>
+      <input type="range" id="minDelay" min="15" max="300" value="45" step="5">
+    </div>
+    <div class="slider-row">
+      <div class="slider-header"><span>Max delay</span><span class="slider-val"><span id="maxDelayVal">120</span>s</span></div>
+      <input type="range" id="maxDelay" min="30" max="600" value="120" step="10">
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" id="scanBtn">Scan Now</button>
+    <button class="btn btn-primary" id="saveBtn">Save</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
